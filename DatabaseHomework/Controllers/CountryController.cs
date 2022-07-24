@@ -16,36 +16,6 @@ public class CountryController : ControllerBase
         _countryRepository = countryRepository;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Get()
-    {
-        Country country = new Country
-        {
-            CountryName = "Tr",
-            Continent = "Eu",
-            Currency = "TRY"
-        };
-
-        await _countryRepository.SaveCountry(country);
-        return Ok();
-    }
-
-    //[HttpGet("department/{id}")]
-    //public async Task<IEnumerable<Country>> GetDepartment(int id)
-    //{
-    //    Department country = await _countryRepository.GetAllCountries();
-    //    // Employee employee = new Employee
-    //    // {
-    //    //     DeptId = 1,
-    //    //     EmpName = "Ozan",
-    //    //     EmpID = 1
-    //    // };
-    //    //
-    //    // _patikaDbContext.Employee.Add(employee);
-    //    // await _patikaDbContext.SaveChangesAsync();
-    //    return Ok(country);
-    //}
-
     [HttpGet("GetCountry")]
     public async Task<IActionResult> GetCountry(int id)
     {
