@@ -1,8 +1,6 @@
-using DatabaseHomework.DbProvider;
 using DatabaseHomework.Models;
 using DatabaseHomework.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseHomework.Controllers;
 
@@ -10,13 +8,12 @@ namespace DatabaseHomework.Controllers;
 [ApiController]
 public class CountryController : ControllerBase
 {
-    private readonly CountryRepository _countryRepository;
-    private readonly PatikaDbContext _patikaDbContext;
+    private readonly ICountryRepository _countryRepository;
+    
 
-    public CountryController(CountryRepository countryRepository, PatikaDbContext patikaDbContext)
+    public CountryController(ICountryRepository countryRepository)
     {
         _countryRepository = countryRepository;
-        _patikaDbContext = patikaDbContext;
     }
 
     [HttpGet]
@@ -28,15 +25,15 @@ public class CountryController : ControllerBase
             Continent = "Eu",
             Currency = "TRY"
         };
-        
+
         await _countryRepository.SaveCountry(country);
         return Ok();
     }
 
     //[HttpGet("department/{id}")]
-    //public async Task<IActionResult> GetDepartment(int id)
+    //public async Task<IEnumerable<Country>> GetDepartment(int id)
     //{
-    //    Department department = await _countryRepository.GetDepartment(id);
+    //    Department country = await _countryRepository.GetAllCountries();
     //    // Employee employee = new Employee
     //    // {
     //    //     DeptId = 1,
@@ -46,23 +43,31 @@ public class CountryController : ControllerBase
     //    //
     //    // _patikaDbContext.Employee.Add(employee);
     //    // await _patikaDbContext.SaveChangesAsync();
-    //    return Ok(department);
+    //    return Ok(country);
     //}
 
-    [HttpGet("country/all")]
+    [HttpGet("GetCountry")]
+    public async Task<IActionResult> GetCountry(int id)
+    {
+        Country country = await _countryRepository.GetCountry(id);
+        if (country == null) return NotFound();
+        return Ok(country);
+    }
+
+    [HttpGet("GetCountries")]
     public async Task<IActionResult> GetAllCountries()
     {
         IEnumerable<Country> countries = await _countryRepository.GetAllCountries();
         return Ok(countries);
     }
 
-
-    [HttpDelete("country/delete")]
-    public async Task<IActionResult> DeleteCountry(int id)
+    [HttpPost("AddNewCountry")]
+    public async Task<IActionResult> AddNewCountry(Country country)
     {
-        Country country = await _countryRepository.DeleteCountry(id);
-
-        await _patikaDbContext.SaveChangesAsync();
+        _countryRepository.AddCountry(country);
+        _countryRepository.SaveCountry(country);
         return Ok(country);
     }
+
+
 }

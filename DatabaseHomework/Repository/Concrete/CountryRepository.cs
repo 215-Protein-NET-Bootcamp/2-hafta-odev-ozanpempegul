@@ -9,8 +9,8 @@ public class CountryRepository : ICountryRepository
 
     private const string InsertCountrySqlStatement = @"INSERT INTO country (CountryName, Continent, Currency) VALUES(@CountryName, @Continent, @Currency)";
     private const string SelectCountrySqlStatement = @"SELECT * FROM country WHERE CountryId = @Id LIMIT 1";
-    private const string SelectAllCountrySqlStatement = @"SELECT * FROM country LIMIT 50";
-    private const string DeleteCountrySqlStatement = @"DELETE country WHERE CountryId = @Id LIMIT 1";
+    private const string SelectAllCountriesSqlStatement = @"SELECT * FROM country LIMIT 50";
+    private const string UpdateCountrySqlStatement = @"UPDATE country SET countryname = @country.countryname, continent = @country.continent, currency = @country.currency WHERE CountryId = @Id";
 
     public CountryRepository(IDapperDbProvider dapperDbProvider)
     {
@@ -35,12 +35,26 @@ public class CountryRepository : ICountryRepository
     {
         using var connection = _dapperDbProvider.GetConnection();
 
-        return await _dapperDbProvider.QueryAsync<Country>(connection, SelectAllCountrySqlStatement);
+        return await _dapperDbProvider.QueryAsync<Country>(connection, SelectAllCountriesSqlStatement);
     }
-    public async Task<Country> DeleteCountry(int id)
+
+    public async Task<IEnumerable<Country>> AddCountry(Country country)
     {
         using var connection = _dapperDbProvider.GetConnection();
 
-        return await _dapperDbProvider.QueryFirstOrDefaultAsync<Country>(connection, DeleteCountrySqlStatement, new { Id = id });
+        return await _dapperDbProvider.QueryAsync<Country>(connection, InsertCountrySqlStatement);
+    }
+
+    public async Task<Country> UpdateCountry(Country country)
+    {
+        //using var connection = _dapperDbProvider.GetConnection();
+
+        //await _dapperDbProvider.Qu(connection, UpdateCountrySqlStatement, country);
+        throw new NotImplementedException();
+    }
+
+    public Task<Country> DeleteCountry(int id)
+    {
+        throw new NotImplementedException();
     }
 }

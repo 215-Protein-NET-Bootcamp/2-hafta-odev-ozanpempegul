@@ -9,7 +9,7 @@ public class DepartmentRepository : IDepartmentRepository
 
     private const string InsertDepartmentSqlStatement = @"INSERT INTO department (DepartmentId, DeptName, CountryId) VALUES(@Id, @DeptName, @CountryId)";
     private const string SelectDepartmentSqlStatement = @"SELECT * FROM department WHERE DepartmentId = @Id LIMIT 1";
-    private const string SelectAllDepartmentSqlStatement = @"SELECT * FROM department LIMIT 50";
+    private const string SelectAllDepartmentsSqlStatement = @"SELECT * FROM department LIMIT 50";
     private const string DeleteDepartmentSqlStatement = @"DELETE department WHERE CountryId = @Id LIMIT 1";
 
     public DepartmentRepository(IDapperDbProvider dapperDbProvider)
@@ -35,7 +35,7 @@ public class DepartmentRepository : IDepartmentRepository
     {
         using var connection = _dapperDbProvider.GetConnection();
 
-        return await _dapperDbProvider.QueryAsync<Department>(connection, SelectAllDepartmentSqlStatement);
+        return await _dapperDbProvider.QueryAsync<Department>(connection, SelectAllDepartmentsSqlStatement);
     }
 
     public async Task<Department> DeleteDepartment(int id)

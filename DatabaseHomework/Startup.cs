@@ -9,7 +9,7 @@ namespace DatabaseHomework;
 public class Startup
 {
     public IConfiguration Configuration;
-    
+
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
@@ -18,7 +18,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMvc();
-        
+
         services.AddSwaggerGen(c =>
         {
             c.CustomSchemaIds(p => p.FullName);
@@ -30,7 +30,7 @@ public class Startup
                     Contact = new OpenApiContact { Name = "Ozan", }
                 });
         });
-        
+
         services.AddSingleton<IDapperDbProvider, DapperDbProvider>();
         services.AddSingleton<ICountryRepository, CountryRepository>();
         services.AddSingleton<IDepartmentRepository, DepartmentRepository>();
@@ -38,7 +38,7 @@ public class Startup
         services.AddEntityFrameworkNpgsql().AddDbContext<PatikaDbContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
     }
-    
+
     public static void Configure(IApplicationBuilder app)
     {
         app.UseSwagger();
@@ -48,7 +48,7 @@ public class Startup
         var option = new RewriteOptions();
         option.AddRedirect("^$", "swagger");
         app.UseRewriter(option);
-        
+
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
 }
