@@ -9,6 +9,5 @@ namespace DatabaseHomework.Repository
         Task<Country> AddCountry(Country country);
         Task<Country> UpdateCountry(Country country);
         Task DeleteCountry(int id);
-        Task SaveCountry(Country country);
     }
 }

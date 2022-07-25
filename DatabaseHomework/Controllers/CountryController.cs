@@ -42,7 +42,6 @@ public class CountryController : ControllerBase
     public async Task<IActionResult> AddNewCountry(Country country)
     {
         _countryRepository.AddCountry(country);
-        _countryRepository.SaveCountry(country);
         return Ok(country);
     }
 
