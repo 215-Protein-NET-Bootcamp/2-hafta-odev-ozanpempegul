@@ -16,7 +16,7 @@ public class CountryController : ControllerBase
         _countryRepository = countryRepository;
     }
 
-    [HttpGet("GetCountry")]
+    [HttpGet("GetCountry/{id}")]
     public async Task<IActionResult> GetCountry(int id)
     {
         Country country = await _countryRepository.GetCountry(id);
@@ -31,6 +31,13 @@ public class CountryController : ControllerBase
         return Ok(countries);
     }
 
+    [HttpPut("UpdateCountry/{id}")]
+    public async Task<IActionResult> UpdateCountry(int id, Country country)
+    {
+        _countryRepository.UpdateCountry(country);
+        return Ok(country);
+    }
+
     [HttpPost("AddNewCountry")]
     public async Task<IActionResult> AddNewCountry(Country country)
     {
@@ -39,5 +46,11 @@ public class CountryController : ControllerBase
         return Ok(country);
     }
 
-
+    [HttpDelete("DeleteCountry/{id}")]
+    public async Task<IActionResult> DeleteCountry(int id)
+    {
+        Country country = await _countryRepository.GetCountry(id);
+        _countryRepository.DeleteCountry(id);
+        return Ok(country);
+    }
 }
