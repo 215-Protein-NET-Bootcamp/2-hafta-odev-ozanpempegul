@@ -25,9 +25,9 @@ public class Startup
             c.SwaggerDoc("v1",
                 new OpenApiInfo
                 {
-                    Title = "Ozan API",
+                    Title = "DatabaseHW API",
                     Version = "v1",
-                    Contact = new OpenApiContact { Name = "Ozan", }
+                    Contact = new OpenApiContact { Name = "DatabaseHW", }
                 });
         });
 

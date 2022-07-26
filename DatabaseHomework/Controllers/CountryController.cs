@@ -31,8 +31,8 @@ public class CountryController : ControllerBase
         return Ok(countries);
     }
 
-    [HttpPut("UpdateCountry/{id}")]
-    public async Task<IActionResult> UpdateCountry(int id, Country country)
+    [HttpPut("UpdateCountry")]
+    public async Task<IActionResult> UpdateCountry([FromQuery] Country country)
     {
         _countryRepository.UpdateCountry(country);
         return Ok(country);

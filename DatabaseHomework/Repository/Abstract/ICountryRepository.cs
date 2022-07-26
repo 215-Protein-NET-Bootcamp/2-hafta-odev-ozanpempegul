@@ -6,8 +6,8 @@ namespace DatabaseHomework.Repository
     {
         Task<Country> GetCountry(int id);
         Task<IEnumerable<Country>> GetAllCountries();
-        Task<Country> AddCountry(Country country);
+        Task AddCountry(Country country);
         Task<Country> UpdateCountry(Country country);
-        Task DeleteCountry(int id);
+        Task<Country> DeleteCountry(int id);
     }
 }

@@ -29,13 +29,13 @@ public class CountryRepository : ICountryRepository
         return await _dapperDbProvider.QueryAsync<Country>(connection, SelectAllCountriesSqlStatement);
     }
 
-    public async Task<Country> AddCountry(Country country)
+    public async Task AddCountry(Country country)
     {
         string InsertCountrySqlStatement = $"INSERT INTO public.country(countryname, continent, currency) VALUES ('{country.CountryName}', '{country.Continent}', '{country.Currency}');";
     
         using var connection = _dapperDbProvider.GetConnection();
 
-        return await _dapperDbProvider.QueryFirstOrDefaultAsync<Country>(connection, InsertCountrySqlStatement);
+        await _dapperDbProvider.ExecuteAsync(connection, InsertCountrySqlStatement);
     }
 
     public async Task<Country> UpdateCountry(Country country)
@@ -47,10 +47,11 @@ public class CountryRepository : ICountryRepository
         return await _dapperDbProvider.QueryFirstOrDefaultAsync<Country>(connection, UpdateCountrySqlStatement);
     }
 
-    public async Task DeleteCountry(int id)
+    public async Task<Country> DeleteCountry(int id)
     {
         string DeleteCountrySqlStatement = $"DELETE FROM public.country WHERE countryid = {id};";
         using var connection = _dapperDbProvider.GetConnection();
-        await _dapperDbProvider.ExecuteAsync(connection, DeleteCountrySqlStatement);
+        await _dapperDbProvider.QueryFirstOrDefaultAsync<Country>(connection, DeleteCountrySqlStatement);
+        return await _dapperDbProvider.QueryFirstOrDefaultAsync<Country>(connection, SelectCountrySqlStatement, new { Id = id });
     }
 }
