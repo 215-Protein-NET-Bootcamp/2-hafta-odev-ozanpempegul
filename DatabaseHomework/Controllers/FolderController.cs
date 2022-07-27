@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseHomework.Controllers;
 
+
 [Route("[controller]s")]
 [ApiController]
 public class FolderController : ControllerBase
@@ -20,7 +21,7 @@ public class FolderController : ControllerBase
     [HttpGet("GetFolder")]
     public async Task<IActionResult> GetFolder(int id)
     {
-        Folder folder = await _patikaDbContext.Folder.Where(x => x.FolderId == id).FirstOrDefaultAsync();
+        Folder folder = await _patikaDbContext.Folder.Where(x => x.folderid == id).FirstOrDefaultAsync();
         if (folder == null) return NotFound();
 
         return Ok(folder);
@@ -34,11 +35,11 @@ public class FolderController : ControllerBase
     }
 
     [HttpPut("ChangeAccessType")]
-    public async Task<IActionResult> ChangeFolderName(int id, string newAccessType)
+    public async Task<IActionResult> ChangeFolderName(int id, string newAccess)
     {
-        Folder folder = await _patikaDbContext.Folder.Where(x => x.FolderId == id).FirstOrDefaultAsync();
+        Folder folder = await _patikaDbContext.Folder.Where(x => x.folderid == id).FirstOrDefaultAsync();
         if (folder == null) return NotFound();
-        folder.AccessType = newAccessType;
+        folder.accesstype = newAccess;
         await _patikaDbContext.SaveChangesAsync();
         return Ok(folder);
     }
@@ -54,7 +55,7 @@ public class FolderController : ControllerBase
     [HttpDelete("DeleteFolder")]
     public async Task<IActionResult> DeleteFolder(int id)
     {
-        Folder folder = await _patikaDbContext.Folder.Where(x => x.FolderId == id).FirstOrDefaultAsync();
+        Folder folder = await _patikaDbContext.Folder.Where(x => x.folderid == id).FirstOrDefaultAsync();
         if (folder == null) return NotFound();
         _patikaDbContext.Remove(folder);
         await _patikaDbContext.SaveChangesAsync();

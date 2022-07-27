@@ -1,10 +1,18 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DatabaseHomework.Models;
 
+
+[Table("folder")]
 public class Folder
 {
-    
-    public int FolderId { get; set; }
-    public int EmpId { get; set; }
-    public string AccessType { get; set; } 
+    [Column("folderid")]    
+    public int folderid { get; set; }
+
+    [Column("empid")]
+    public int empid { get; set; }
+
+    [Column("accesstype")]
+    public string accesstype{ get; set; } 
     
 }
